@@ -216,7 +216,14 @@
 
       function checkJointGroupConsent(group) {
         const totalMembers = group.members.length
-        if (totalMembers === 0) return false
+        if (totalMembers < 2) {
+          return {
+            passed: false,
+            agreeShare: 0,
+            totalShare: 0,
+            error: '公同共有至少需要2名成員'
+          }
+        }
 
         let totalShare = 0
         let agreeShare = 0
