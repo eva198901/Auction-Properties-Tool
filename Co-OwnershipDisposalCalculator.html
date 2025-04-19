@@ -97,7 +97,7 @@
 
         <!-- 公同共有 -->
         <div v-if="owner.type === 'joint'" class="space-y-4">
-          <div class="space-y-2 ">
+          <div class="space-y-2">
             <div v-for="(member, memberIndex) in owner.members" :key="memberIndex"
                  class="inline-flex items-center gap-2 bg-blue-50 p-2 pr-10 rounded-md inline-block relative overflow-hidden">
               <input v-model="member.name" type="text" placeholder="姓名"
