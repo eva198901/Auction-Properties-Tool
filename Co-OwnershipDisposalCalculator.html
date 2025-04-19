@@ -58,7 +58,7 @@
     <div class="space-y-4">
       <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
         <div class="font-medium text-blue-800">目前總持分：{{ formatShare(calculateTotalShare()) }}</div>
-        <div v-if="totalShareWarning" class="text-orange-600 text-sm mt-1">{{ totalShareWarning }}</div>
+        <div v-if="totalShareWarning" class="text-yellow-600 text-sm mt-1">{{ totalShareWarning }}</div>
       </div>
       <div v-for="(owner, index) in owners" :key="index" class="border p-3 pr-6 rounded-xl bg-white shadow overflow-hidden relative">
         <div class="flex items-center justify-between">
@@ -124,7 +124,7 @@
           <button @click="addJointMember(owner)"
                   class="text-blue-600 hover:underline">新增公同共有成員</button>
           <div v-if="getJointGroupShareError(owner)"
-               class="text-red-500 text-sm">
+               class="text-yellow-600 text-sm">
             {{ getJointGroupShareError(owner) }}
           </div>
         </div>
@@ -201,15 +201,19 @@
       function getJointGroupShareError(group) {
         if (!group.members || group.members.length === 0) return null
 
+        if (group.members.length < 2) {
+          return '⚠️ 注意：公同共有至少需要2名成員'
+        }
+
         const totalShare = group.members.reduce((sum, m) => {
           if (m.denominator === 0) return sum
           return sum + (m.numerator / m.denominator)
         }, 0)
 
         if (totalShare > 1) {
-          return `⚠️ 警告：此群組總持分 ${totalShare.toFixed(4)} 超過 1/1`
+          return `⚠️ 注意：此群組總持分 ${totalShare.toFixed(4)} 超過 1/1`
         } else if (totalShare < 1) {
-          return `⚠️ 警告：此群組總持分 ${totalShare.toFixed(4)} 尚未達到 1/1`
+          return `⚠️ 注意：此群組總持分 ${totalShare.toFixed(4)} 尚未達到 1/1`
         }
         return null
       }
@@ -221,7 +225,7 @@
             passed: false,
             agreeShare: 0,
             totalShare: 0,
-            error: '公同共有至少需要2名成員'
+            error: null
           }
         }
 
@@ -284,7 +288,7 @@
       const validateTotalShare = () => {
         const total = calculateTotalShare()
         if (total > 1) {
-          totalShareError.value = `⚠️ 警告：總持分面積 ${total.toFixed(4)} 超過 1/1`
+          totalShareError.value = `⚠️ 注意：總持分面積 ${total.toFixed(4)} 超過 1/1`
           totalShareWarning.value = ''
         } else if (total < 1) {
           totalShareError.value = ''
