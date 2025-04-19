@@ -14,8 +14,6 @@
 
   <!-- 規則說明 -->
   <div class="mb-8 bg-white rounded-xl p-6 shadow">
-    <h2 class="text-xl font-semibold mb-4">處分條件說明</h2>
-
     <div class="space-y-4">
 
       <div>
@@ -81,12 +79,14 @@
 
         <!-- 分別共有 -->
         <div v-if="owner.type === 'separate'" class="space-y-2">
-          <input v-model="owner.name" type="text" placeholder="姓名"
-                 class="border rounded-md px-3 py-2 w-full shadow-sm" />
-          <label class="flex items-center space-x-2">
-            <input v-model="owner.agree" type="checkbox" />
-            <span>同意處分</span>
-          </label>
+          <div class="flex items-center justify-between">
+            <input v-model="owner.name" type="text" placeholder="姓名"
+                   class="border rounded-md px-3 py-2 w-40 shadow-sm" />
+            <label class="flex items-center space-x-2">
+              <input v-model="owner.agree" type="checkbox" />
+              <span>同意處分</span>
+            </label>
+          </div>
         </div>
 
         <!-- 公同共有 -->
